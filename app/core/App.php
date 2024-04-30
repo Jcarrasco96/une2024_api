@@ -17,7 +17,6 @@ class App
 
         define('ROOT', getcwd() . DIRECTORY_SEPARATOR);
         define('APP_PATH', ROOT . 'app' . DIRECTORY_SEPARATOR);
-        define('FONT_PATH', APP_PATH . 'fonts' . DIRECTORY_SEPARATOR);
     }
 
     /**

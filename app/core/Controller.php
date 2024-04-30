@@ -57,7 +57,7 @@ class Controller
         $jsonResponse = json_encode($params, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 
         if (json_last_error() != JSON_ERROR_NONE) {
-            throw new Exception("Error interno en el servidor. Contacte al administrador", 500);
+            throw new Exception("Error interno en el servidor. Contacte al administrador con este codigo: JSON" . json_last_error(), 500);
         }
 
         return $jsonResponse;
