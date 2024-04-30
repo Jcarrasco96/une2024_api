@@ -2,6 +2,9 @@
 
 namespace app\core;
 
+use app\exceptions\BadRequestException;
+use app\exceptions\EmptyFieldException;
+use app\exceptions\NumericFieldException;
 use Exception;
 
 class Validators
@@ -14,7 +17,7 @@ class Validators
     {
         foreach ($fields as $field) {
             if (!isset($data[$field])) {
-                throw new Exception($message, 400);
+                throw new BadRequestException($message);
             }
         }
     }
@@ -26,7 +29,7 @@ class Validators
     {
         foreach ($fields as $field) {
             if (empty($field)) {
-                throw new Exception("Verifique los campos vacios.", 400);
+                throw new EmptyFieldException();
             }
         }
     }
@@ -37,7 +40,7 @@ class Validators
     public static function validateIsNumeric($number): void
     {
         if (!is_numeric($number)) {
-            throw new Exception("Verifique que el campo sea un numero.", 400);
+            throw new NumericFieldException();
         }
     }
 

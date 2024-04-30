@@ -2,8 +2,8 @@
 
 namespace app\core;
 
+use app\exceptions\JsonException;
 use Exception;
-use ReflectionException;
 use ReflectionMethod;
 
 class Controller
@@ -22,7 +22,7 @@ class Controller
             $this->dataJson = json_decode($parameters, true);
 
             if (json_last_error() != JSON_ERROR_NONE) {
-                throw new Exception("Error interno en el servidor. Contacte al administrador con este codigo: JSON" . json_last_error(), 500);
+                throw new JsonException();
             }
         }
     }
@@ -32,15 +32,11 @@ class Controller
      */
     public function createAction($methodName, $params = []): array
     {
-        try {
-            $method = new ReflectionMethod($this, $this->normalizeAction($methodName));
-            if ($method->isPublic()) {
-                echo $this->render($method->invokeArgs($this, $params));
-            }
-            return [];
-        } catch (ReflectionException|Exception $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode());
+        $method = new ReflectionMethod($this, $this->normalizeAction($methodName));
+        if ($method->isPublic()) {
+            echo $this->render($method->invokeArgs($this, $params));
         }
+        return [];
     }
 
     /**
@@ -57,7 +53,7 @@ class Controller
         $jsonResponse = json_encode($params, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
 
         if (json_last_error() != JSON_ERROR_NONE) {
-            throw new Exception("Error interno en el servidor. Contacte al administrador con este codigo: JSON" . json_last_error(), 500);
+            throw new JsonException();
         }
 
         return $jsonResponse;

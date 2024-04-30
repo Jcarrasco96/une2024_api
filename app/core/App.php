@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\exceptions\MethodNotAllowedException;
+use app\exceptions\NotFoundException;
 use Exception;
 
 class App
@@ -29,7 +31,7 @@ class App
         $method = strtolower($_SERVER['REQUEST_METHOD']);
 
         if (!isset($this->routes[$method])) {
-            throw new Exception("Método no permitido", 400);
+            throw new MethodNotAllowedException();
         }
 
         foreach ($this->routes[$method] as $regex => $action) {
@@ -46,7 +48,7 @@ class App
             }
         }
 
-        throw new Exception("Recurso no encontrado", 404);
+        throw new NotFoundException();
     }
 
     public function run(): void

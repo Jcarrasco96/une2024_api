@@ -30,7 +30,8 @@ class Registry extends Model
         return $this->db->fetch($sql);
     }
 
-    public function deleteAll(string $uuid) {
+    public function deleteAll(string $uuid): int|string
+    {
         $uuid = $this->db->sqlEscape($uuid);
 
         $sql = sprintf("DELETE FROM registry WHERE uuid = '%s'", $uuid);
